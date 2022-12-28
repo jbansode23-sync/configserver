@@ -1,0 +1,32 @@
+eureka:
+  client:
+    service-url:
+      default-zone: http://localhost:8761/eureka
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          gateway: TRACE
+server:
+  port: 9099
+spring:
+  application:
+    name: GATEWAY-SERVICE
+  cloud:
+    gateway:
+      routes:
+      - id: MONGODEMO
+        predicates:
+        - Path=/employee/**
+        uri: lb://MONGODEMO
+      - filters:
+        - SetPath=/
+        id: DISCOVERY-SERVICE
+        predicates:
+        - Path=/eureka/web
+        uri: http://localhost:8761
+      - id: DISCOVERY-SERVICE-STATIC
+        predicates:
+        - Path=/eureka/**
+        uri: http://localhost:8761
