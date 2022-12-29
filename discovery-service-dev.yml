@@ -1,3 +1,4 @@
 discovery:
   msg: test
-
+server:
+  port: 8761
